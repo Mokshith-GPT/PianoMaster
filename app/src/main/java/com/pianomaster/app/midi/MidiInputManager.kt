@@ -2,6 +2,7 @@ package com.pianomaster.app.midi
 
 import android.content.Context
 import android.media.midi.MidiDevice
+import android.media.midi.MidiDeviceInfo
 import android.media.midi.MidiManager
 import android.media.midi.MidiReceiver
 import android.os.Handler
@@ -12,9 +13,9 @@ class MidiInputManager(context: Context, private val onNoteOn: (midiNote: Int, v
     private val manager = context.getSystemService(Context.MIDI_SERVICE) as MidiManager
     private var device: MidiDevice? = null
 
-    fun listDevices(): List<MidiManager.DeviceInfo> = manager.devices.toList()
+    fun listDevices(): List<MidiDeviceInfo> = manager.devices.toList()
 
-    fun open(info: MidiManager.DeviceInfo, onError: (Throwable) -> Unit = {}) {
+    fun open(info: MidiDeviceInfo, onError: (Throwable) -> Unit = {}) {
         manager.openDevice(info, { opened ->
             if (opened == null) { onError(IllegalStateException("Unable to open MIDI device")); return@openDevice }
             device = opened
